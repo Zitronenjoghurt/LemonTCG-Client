@@ -1,9 +1,9 @@
 import aiohttp
 from pydantic import BaseModel
 from typing import Optional, Type, TypeVar, Union, Any
-from src.entities.config import Config
-from src.api.models.base_response import MessageResponse
+from src.context import Context
 
+CONTEXT = Context.get_instance()
 T = TypeVar('T', bound=BaseModel)
 
 class ApiController():
@@ -28,12 +28,11 @@ class ApiController():
         return f"{self.BASE_URL}/{endpoint}"
     
     def build_headers(self) -> dict:
-        config = Config.load_state()
-        if len(config.api_key) == 0:
+        if len(CONTEXT.api_key) == 0:
             raise MissingApiKeyError()
         
         headers = {
-            'X-API-Key': config.api_key
+            'X-API-Key': CONTEXT.api_key
         }
 
         return headers
