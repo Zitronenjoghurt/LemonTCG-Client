@@ -1,5 +1,5 @@
 from src.api.api_controller import ApiController
-from src.api.models.base_response import MessageResponse
+from src.api.models.base_responses import MessageResponse
 
 API = ApiController.get_instance()
 
